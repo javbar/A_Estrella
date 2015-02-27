@@ -1,9 +1,9 @@
-#include "List.h"
+#include "Grafo.h"
 
 int main()
 {
-	List L;
-	L.printList();
+	Grafo G;
+	G.printGrafo();
 
 	cin.get();
 	return 0;
