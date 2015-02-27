@@ -14,11 +14,12 @@ using namespace std;
 class List
 {
 private:
-	Node *first;
-	Node *last;
 	int size;
 
 public:
+	Node *first;
+	Node *last;
+
 	List();
 	~List();
 	int insertFirstNode(char *origin, char *destiny, int cost);
