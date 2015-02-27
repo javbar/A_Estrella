@@ -13,20 +13,20 @@ using namespace std;
 
 class List
 {
-	private:
-		Node *first;
-		Node *last;
-		int size;
+private:
+	Node *first;
+	Node *last;
+	int size;
 
-	public:
-		List();
-		~List();
-		int insertFirstNode(char *origin, char *destiny, int cost);
-		int	insertAtTop(char *origin, char *destiny, int cost);
-		int insertAtBottom(char *origin, char *destiny, int cost);
-		int deleteTop();
-		void readList(char *name);
-		void printList();
+public:
+	List();
+	~List();
+	int insertFirstNode(char *origin, char *destiny, int cost);
+	int	insertAtTop(char *origin, char *destiny, int cost);
+	int insertAtBottom(char *origin, char *destiny, int cost);
+	int deleteTop();
+	void readList(char *name);
+	void printList();
 
 };
 
@@ -43,22 +43,22 @@ int List::insertFirstNode(char *origin, char *destiny, int cost)
 {
 	Node *newNode;
 
-	if ((newNode = (Node*)malloc(sizeof(Node))) == NULL)
+	if ((newNode = new Node[1]) == NULL)
 		return -1;
 
-	if ((newNode->origin = (char*)malloc(50 * sizeof(char))) == NULL)
+	if ((newNode->origin = new char[50]) == NULL)
 		return -1;
 
-	if ((newNode->destiny = (char*)malloc(50 * sizeof(char))) == NULL)
+	if ((newNode->destiny = new char[50]) == NULL)
 		return -1;
 
-	
+
 	strcpy(newNode->origin, origin);
 	strcpy(newNode->destiny, destiny);
 	newNode->cost = cost;
 
 	newNode->next = NULL;
-	
+
 	first = newNode;
 	last = newNode;
 	size++;
@@ -70,13 +70,13 @@ int List::insertAtTop(char *origin, char *destiny, int cost)
 {
 	Node *newNode;
 
-	if ((newNode = (Node*)malloc(sizeof(Node))) == NULL)
+	if ((newNode = new Node[1]) == NULL)
 		return -1;
 
-	if ((newNode->origin = (char*)malloc(50 * sizeof(char))) == NULL)
+	if ((newNode->origin = new char[50]) == NULL)
 		return -1;
 
-	if ((newNode->destiny = (char*)malloc(50 * sizeof(char))) == NULL)
+	if ((newNode->destiny = new char[50]) == NULL)
 		return -1;
 
 	strcpy(newNode->origin, origin);
@@ -95,13 +95,13 @@ int List::insertAtBottom(char *origin, char *destiny, int cost)
 	Node *newNode, *actual;
 	actual = last;
 
-	if ((newNode = (Node*)malloc(sizeof(Node))) == NULL)
+	if ((newNode = new Node[1]) == NULL)
 		return -1;
 
-	if ((newNode->origin = (char*)malloc(50 * sizeof(char))) == NULL)
+	if ((newNode->origin = new char[50]) == NULL)
 		return -1;
 
-	if ((newNode->destiny = (char*)malloc(50 * sizeof(char))) == NULL)
+	if ((newNode->destiny = new char[50]) == NULL)
 		return -1;
 
 	strcpy(newNode->origin, origin);
@@ -127,8 +127,9 @@ int List::deleteTop()
 	if (size == 1)
 		last = NULL;
 
-	free(deleteNode->origin);
-	free(deleteNode);
+	delete[] deleteNode->origin;
+	delete[] deleteNode->destiny;
+	delete[] deleteNode;
 	size--;
 	return 0;
 }
