@@ -1,9 +1,10 @@
-#include <iostream>
+#include "List.h"
 
-using namespace std;
-
-int main(int argc, char *argv[])
+int main()
 {
-	
+	List L;
+	L.printList();
+
+	cin.get();
 	return 0;
 }
