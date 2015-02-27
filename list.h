@@ -1,200 +1,152 @@
-#include<stdio.h>
-#include<stdlib.h>
+#ifndef LIST_H_INCLUDED
+#define LIST_H_INCLUDED
+
+#include "Node.h"
+
+#include<iostream>
+#include<iomanip>
+
 #include<string.h>
+#include<fstream>
 
-struct Alumno
+using namespace std;
+
+class List
 {
-	int ID;
-	char *name;
-	float parcial_1, parcial_2, final;
-	struct Alumno *next;
+	private:
+		Node *first;
+		Node *last;
+		int size;
+
+	public:
+		List();
+		~List();
+		int insertFirstNode(char *origin, char *destiny, int cost);
+		int	insertAtTop(char *origin, char *destiny, int cost);
+		int insertAtBottom(char *origin, char *destiny, int cost);
+		int deleteTop();
+		void printList();
+
 };
 
-typedef struct Alumno Student;
-
-struct Lista
+List::List()
 {
-	Student *first;
-	Student *last;
-	int size;
-};
-
-typedef struct Lista List;
-
-void createList(List *list)
-{
-	list->first = NULL;
-	list->last = NULL;
-	list->size = 0;
+	first = NULL;
+	last = NULL;
+	size = 0;
 }
 
-int insertFirstStudent(List *list, int ID, char *name, float parcial_1, float parcial_2)
+int List::insertFirstNode(char *origin, char *destiny, int cost)
 {
-	Student *newStudent;
+	Node *newNode;
 
-	if ((newStudent = (Student*)malloc(sizeof(Student))) == NULL)
+	if ((newNode = (Node*)malloc(sizeof(Node))) == NULL)
 		return -1;
 
-	if ((newStudent->name = (char*)malloc(50*sizeof(char))) == NULL)
+	if ((newNode->origin = (char*)malloc(50 * sizeof(char))) == NULL)
 		return -1;
 
-	newStudent->ID = ID;
-	strcpy(newStudent->name, name);
-	newStudent->parcial_1 = parcial_1;
-	newStudent->parcial_2 = parcial_2;
-	newStudent->final = (parcial_1+parcial_2)/2;
+	if ((newNode->destiny = (char*)malloc(50 * sizeof(char))) == NULL)
+		return -1;
 
-	newStudent->next = NULL;
-	list->first = newStudent;
-	list->last = newStudent;
-	list->size++;
+	
+	strcpy(newNode->origin, origin);
+	strcpy(newNode->destiny, destiny);
+	newNode->cost = cost;
+
+	newNode->next = NULL;
+	
+	first = newNode;
+	last = newNode;
+	size++;
 
 	return 0;
 }
 
-int insertAtTop(List *list, int ID, char *name, float parcial_1, float parcial_2)
+int List::insertAtTop(char *origin, char *destiny, int cost)
 {
-	Student *newStudent;
+	Node *newNode;
 
-	if ((newStudent = (Student*)malloc(sizeof(Student))) == NULL)
+	if ((newNode = (Node*)malloc(sizeof(Node))) == NULL)
 		return -1;
 
-	if ((newStudent->name = (char*)malloc(50 * sizeof(char))) == NULL)
+	if ((newNode->origin = (char*)malloc(50 * sizeof(char))) == NULL)
 		return -1;
 
-	newStudent->ID = ID;
-	strcpy(newStudent->name, name);
-	newStudent->parcial_1 = parcial_1;
-	newStudent->parcial_2 = parcial_2;
-	newStudent->final = (parcial_1 + parcial_2) / 2;
-
-	newStudent->next = list->first;
-	list->first = newStudent;
-	list->size++;
-	return 0;
-}
-
-int insertAtBottom(List *list, Student *actual, int ID, char *name, float parcial_1, float parcial_2)
-{
-	Student *newStudent;
-
-	if ((newStudent = (Student*)malloc(sizeof(Student))) == NULL)
+	if ((newNode->destiny = (char*)malloc(50 * sizeof(char))) == NULL)
 		return -1;
 
-	if ((newStudent->name = (char*)malloc(50 * sizeof(char))) == NULL)
-		return -1;
+	strcpy(newNode->origin, origin);
+	strcpy(newNode->destiny, destiny);
+	newNode->cost = cost;
 
-	newStudent->ID = ID;
-	strcpy(newStudent->name, name);
-	newStudent->parcial_1 = parcial_1;
-	newStudent->parcial_2 = parcial_2;
-	newStudent->final = (parcial_1 + parcial_2) / 2;
-
-	actual->next = newStudent;
-	newStudent->next = NULL;
-	list->last = newStudent;
-	list->size++;
-	return 0;
-}
-
-int insertAtPosition(List *list, int ID, char *name, float parcial_1, float parcial_2, int position)
-{
-	if (list->size < 2)
-		return -1;
-
-	if (position < 1 || position >= list->size)
-		return -1;
-
-	Student *actual, *newStudent;
-	int i;
-
-	if ((newStudent = (Student*)malloc(sizeof(Student))) == NULL)
-		return -1;
-
-	if ((newStudent->name = (char*)malloc(50 * sizeof(char))) == NULL)
-		return -1;
-
-	actual = list->first;
-
-	for (i = 1; i<position; i++)
-		actual = actual->next;
-
-	if (actual->next == NULL)
-		return -1;
-
-	newStudent->ID = ID;
-	strcpy(newStudent->name, name);
-	newStudent->parcial_1 = parcial_1;
-	newStudent->parcial_2 = parcial_2;
-	newStudent->final = (parcial_1 + parcial_2) / 2;
-
-	newStudent->next = actual->next;
-	actual->next = newStudent;
-	list->size++;
+	newNode->next = first;
+	first = newNode;
+	size++;
 
 	return 0;
 }
 
-int deleteAtPosition(List *list, int position)
+int List::insertAtBottom(char *origin, char *destiny, int cost)
 {
-	if (list->size < 1 || position < 1 || position >= list->size)
+	Node *newNode, *actual;
+	actual = last;
+
+	if ((newNode = (Node*)malloc(sizeof(Node))) == NULL)
 		return -1;
 
-	Student *actual, *deleteStudent;
-	int i;
+	if ((newNode->origin = (char*)malloc(50 * sizeof(char))) == NULL)
+		return -1;
 
-	actual = list->first;
+	if ((newNode->destiny = (char*)malloc(50 * sizeof(char))) == NULL)
+		return -1;
 
-	for (i = 1; i<position; i++)
-		actual = actual->next;
+	strcpy(newNode->origin, origin);
+	strcpy(newNode->destiny, destiny);
+	newNode->cost = cost;
 
-	deleteStudent = actual->next;
-	actual->next = actual->next->next;
-
-	if (actual->next == NULL)
-		list->last = actual;
-
-	free(deleteStudent->name);
-	free(deleteStudent);
-
-	list->size--;
-
+	actual->next = newNode;
+	newNode->next = NULL;
+	last = newNode;
+	size++;
 	return 0;
 }
 
-int deleteTop(List *list)
+int List::deleteTop()
 {
-	if (list->size == 0)
+	if (size == 0)
 		return -1;
 
-	Student *deleteStudent;
-	deleteStudent = list->first;
-	list->first = list->first->next;
+	Node *deleteNode;
+	deleteNode = first;
+	first = first->next;
 
-	if (list->size == 1)
-		list->last = NULL;
+	if (size == 1)
+		last = NULL;
 
-	free(deleteStudent->name);
-	free(deleteStudent);
-	list->size--;
+	free(deleteNode->origin);
+	free(deleteNode);
+	size--;
 	return 0;
 }
 
-void deleteList(List *list)
+List::~List()
 {
-	while (list->size > 0)
-		deleteTop(list);
+	while (size > 0)
+		deleteTop();
 }
 
-void printList(List *list)
+void List::printList()
 {
-	Student *actual;
+	Node *actual;
 
-	actual = list->first;
+	actual = first;
 
 	while (actual != NULL)
 	{
-		printf("\nID: %d\nAlumno: %s\nCalificacion Primer Parcial: %f\nCalificacion Segundo Parcial: %f\nCalificacion Final: %f\n", actual->ID, actual->name, actual->parcial_1, actual->parcial_2, actual->final);
+		cout << "Origin: " << setw(10) << actual->origin << " Destiny: " << setw(10) << actual->destiny << " Cost: " << setw(3) << actual->cost << endl;
 		actual = actual->next;
 	}
 }
+
+#endif
