@@ -1,9 +1,3 @@
-# A_Estrella
-Algoritmo de Búsqueda A*
+# Shortest Path Algortithm
+Algoritmo de Búsqueda para el camino más corto.
 
-
-
-conchetumadre
-
-
-La que los remil parió :D
