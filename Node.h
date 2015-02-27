@@ -4,13 +4,12 @@
 class Node
 {
 	public:
-		char *origin;
-		char *destiny;
+		char *origin, *destiny;
 		int cost;
 		Node *next;
 
-		Node();
-		~Node();
+		Node(){}
+		~Node(){}
 };
 
 #endif
