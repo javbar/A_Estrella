@@ -25,6 +25,7 @@ class List
 		int	insertAtTop(char *origin, char *destiny, int cost);
 		int insertAtBottom(char *origin, char *destiny, int cost);
 		int deleteTop();
+		void readList(char *name);
 		void printList();
 
 };
@@ -34,6 +35,8 @@ List::List()
 	first = NULL;
 	last = NULL;
 	size = 0;
+
+	readList("rutas.txt");
 }
 
 int List::insertFirstNode(char *origin, char *destiny, int cost)
@@ -147,6 +150,33 @@ void List::printList()
 		cout << "Origin: " << setw(10) << actual->origin << " Destiny: " << setw(10) << actual->destiny << " Cost: " << setw(3) << actual->cost << endl;
 		actual = actual->next;
 	}
+}
+
+void List::readList(char *name)
+{
+	char origin[50], destiny[50];
+	int cost;
+	int count = 0;
+
+	ifstream input(name);
+
+	while (!input.eof())
+	{
+		input >> origin;
+
+		if (origin[0] == '\0')
+			break;
+
+		input >> destiny;
+		input >> cost;
+
+		if (size == 0)
+			insertFirstNode(origin, destiny, cost);
+
+		else
+			insertAtBottom(origin, destiny, cost);
+	}
+	input.close();
 }
 
 #endif
