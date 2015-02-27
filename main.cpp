@@ -1,1 +1,6 @@
-horacio gae se la recome con trini
+#include <iostream>
+
+int main(int argc, char *argv[])
+{
+	return 0;
+}
