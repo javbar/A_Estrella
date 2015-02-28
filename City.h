@@ -8,24 +8,35 @@ class City
 {
 	public:
 		int ID;
-		char name[50];
-		int numAdy;
+		char *name;
+		int numAdy, distance;
+		City **adyacent;
 		bool visited;
 
 		City()
 		{
 			numAdy = 0;
+			distance = 1000000;
 			visited = false;
+			name = new char[50];
 		}
 
-		~City(){}
+		~City()
+		{
+			delete[] name;
+		}
 
 		void printCity();
 };
 
 void City::printCity()
 {
-	cout << ID << " " << name << endl;
+	cout << ID << " " << name << " Adyacencias: " << numAdy << endl;
+
+	for (int i = 0; i < numAdy; i++)
+		cout << "->" << adyacent[i]->name << endl;
+
+	cout << endl;
 }
 
 #endif
