@@ -1,4 +1,4 @@
-# Shortest Path Algortithm
+# Shortest Path Algorithm
 Algoritmo de Búsqueda para el camino más corto.
 
 Algoritmo desarrollado para el examen de Algoritmos y Estructuras de Datos del primer parcial.
@@ -8,4 +8,4 @@ Desarrollado por:
 - Barbosa Anda Javier Alejandro
 - Cavazos Avila Marco Arturo
 - Ortíz Cisneros Luis Trinidad
-- John Jasso
+- Jasso Avila Juan Guillermo
