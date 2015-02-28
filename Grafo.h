@@ -151,6 +151,7 @@ void Grafo::dijkstraAlgorithm(City *origin, City *destination)
 
 	for (int i = 0; i < cityN; i++)
 		cout << "ID: " << city[i].ID << " Name " << city[i].name << " Distancia: " << city[i].distance << endl;
+	getSolution(destination);
 }
 
 City *Grafo::calculateDistances(City *actual, City *destination)
