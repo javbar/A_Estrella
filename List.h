@@ -38,7 +38,7 @@ List::List()
 	last = NULL;
 	size = 0;
 
-	readList("rutas.txt");
+	readList("rutas2.txt");
 }
 
 int List::insertFirstNode(char *origin, char *destiny, int cost)
