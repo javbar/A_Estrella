@@ -31,7 +31,7 @@ class City
 
 void City::printCity()
 {
-	cout << ID << " " << name << " Adyacencias: " << numAdy << endl;
+	cout << "Nombre de la Ciudad: " << name << endl << "Ciudades Vecinas: " << endl;
 
 	for (int i = 0; i < numAdy; i++)
 		cout << "->" << adyacent[i]->name << endl;
