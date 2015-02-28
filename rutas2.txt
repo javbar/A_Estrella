@@ -1,0 +1,12 @@
+Argentina	Egipto	7
+Argentina	Colombia	3
+Argentina	Brasil	4
+Brasil	Dinamarca	5
+Brasil	Colombia	6
+Colombia	Dinamarca	11
+Colombia	Egipto	8
+Egipto	Dinamarca	2
+Dinamarca	Finlandia	2
+Dinamarca	Groelandia	10
+Finlandia	Groelandia	3
+
