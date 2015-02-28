@@ -67,8 +67,7 @@ int main()
 
 			else
 				cout << "No existe ciudad!" << endl;
-						
-			G.data.printList();
+					
 			break;
 
 		case 3:
