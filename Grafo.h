@@ -142,10 +142,10 @@ void Grafo::printGrafo()
 void Grafo::dijkstraAlgorithm(City *origin, City *destination)
 {
 	origin->distance = 0;
-	calculateDistances(origin);
+	calculateDistances(origin, destination);
 }
 
-void Grafo::calculateDistances(City *actual)
+void Grafo::calculateDistances(City *actual, City *destination)
 {
 	int newDistance;
 	actual->visited = true;
@@ -177,7 +177,11 @@ void Grafo::calculateDistances(City *actual)
 	}
 
          actual = &city[aux];
-	calculateDistances(actual);
+         
+         if (actual == destination)
+         	return;
+         
+	calculateDistances(actual, destination);
 }
 
 #endif
