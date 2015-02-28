@@ -8,9 +8,10 @@ class Grafo
 {
 public:
 	List data;
-	City *solution;
+	City **solution;
 	City *city;
 	int cityN;
+    int solutionSteps;
 
 	Grafo();
 	~Grafo();
@@ -26,6 +27,7 @@ Grafo::Grafo()
 {
 	city = new City[50];
 	cityN = 0;
+	solutionSteps=0;
 	connectCities();
 }
 
@@ -47,6 +49,8 @@ void Grafo::connectCities()
 	strcpy(city[cityN].name, actual->origin);
 	city[cityN].ID = cityN;
 	cityN++;
+
+
 
 	while (actual != NULL)
 	{
@@ -87,7 +91,7 @@ void Grafo::connectCities()
 		actual = actual->next;
 	}
 
-	solution = new City[cityN];
+	solution = new City*[cityN];
 
 	/********************* CONTAR ADYACENCIAS ************************/
 	for (int i = 0; i < cityN; i++)
@@ -199,13 +203,18 @@ void Grafo::getSolution(City *actual)
     for(int i=0;i<actual->numAdy;i++){
         if((actual->distance -  data.getCosto(actual->name,actual->adyacent[i]->name)) == actual->adyacent[i]->distance)
         {
-            cout<<actual->name<<endl;
+            solution[solutionSteps] = actual;
             actual = actual->adyacent[i];
-
+            solutionSteps++;
             break;
         }
     }
-    cout<<actual->name<<endl;
+    solution[solutionSteps] = actual;
+    solutionSteps++;
+
+    for(int i=0;i<solutionSteps;i++)
+        cout<<solution[solutionSteps-i-1]->name<<endl;
+
 }
 
 #endif
