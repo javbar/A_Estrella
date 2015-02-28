@@ -164,7 +164,19 @@ void Grafo::calculateDistances(City *actual)
 			cout << actual->adyacent[i]->distance << endl;
 		}
 	}
+	
+       newDistance = actual->adyacent[0]->distance;
+       int aux = 0;
+	for (int i = 0; i < actual->numAdy; i++)
+	{
+		if (!actual->adyacent[i]->visited && actual->adyacent[i]->distance < newDistance)
+		{
+			newDistance = actual->adyacent[i]->distance;
+            aux = i;
+		}
+	}
 
+         actual = actual->adyacent[aux];
 	calculateDistances(actual);
 }
 
