@@ -169,14 +169,14 @@ void Grafo::calculateDistances(City *actual)
        int aux = 0;
 	for (int i = 0; i < cityN; i++)
 	{
-		if (!city[i]->visited && city[i]->distance < newDistance)
+		if (!city[i].visited && city[i].distance < newDistance)
 		{
-			newDistance = city[i]->distance;
+			newDistance = city[i].distance;
             		aux = i;
 		}
 	}
 
-         actual = city[aux];
+         actual = &city[aux];
 	calculateDistances(actual);
 }
 
