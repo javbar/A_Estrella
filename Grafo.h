@@ -8,38 +8,31 @@ class Grafo
 {
 	public:
 		List data;
-
-		City city[50];
+		City *city;
 		int cityN;
-		int **adyMatrix;
 
 		Grafo();
 		~Grafo();
 
 		void printGrafo();
-		void readCities();
+		void connectCities();
 };
 
 Grafo::Grafo()
 {
+	city = new City[50];
 	cityN = 0;
-	readCities();
+	connectCities();
 }
 
 Grafo::~Grafo()
 {
-	cityN = 0;
-	readCities();
-
-	for (int i = 0; i < cityN; i++)
-		delete[] adyMatrix[i];
-
-	delete[] adyMatrix;
+	delete[] city;
 }
 
-void Grafo::readCities()
+void Grafo::connectCities()
 {
-	/********************* ASIGNACION DE ID A LAS CIUDADES ************************/
+	/********************* CREAR CIUDADES COMO "NODOS" ************************/
 	bool repeated;
 	char name[50];
 	Node *actual;
@@ -69,13 +62,6 @@ void Grafo::readCities()
 			cityN++;
 		}
 
-		actual = actual->next;
-	}
-
-	actual = data.first;
-
-	while (actual != NULL)
-	{
 		repeated = false;
 		strcpy(name, actual->destiny);
 
@@ -96,36 +82,51 @@ void Grafo::readCities()
 		actual = actual->next;
 	}
 
-	/********************* WEADAS DE TRINI (Matriz de Adyacencia) ************************/
-	char Ciudades[14][15] = { "Francia", "Mexico", "EUA", "Japon", "Inglaterra", "Grecia", "Alemania", "Colombia", "Argentina", "Rusia", "Espana", "Brasil", "Canada", "Suiza" };
-	int x, y;
+	/********************* CONTAR ADYACENCIAS ************************/
+	for (int i = 0; i < cityN; i++)
+	{
+		actual = data.first;
 
-	adyMatrix = new int *[cityN];
+		while (actual != NULL)
+		{
+			if (strcmp(city[i].name, actual->origin) == 0)
+				city[i].numAdy++;
 
-	for (int i = 0; i<cityN; i++)
-		adyMatrix[i] = new int[cityN];
+			if (strcmp(city[i].name, actual->destiny) == 0)
+				city[i].numAdy++;
 
-	for (int i = 0; i<cityN; i++)
-		for (int j = 0; j<cityN; j++)
-			adyMatrix[i][j] = -1;
+			actual = actual->next;
+		}		
+	}
 
+	/********************* ASIGNACION DE MEMORIA A ADYACENCIAS ************************/
+	for (int i = 0; i < cityN; i++)
+		city[i].adyacent = new City*[city[i].numAdy];
+
+	/********************* CONEXIONES ENTRE ADYACENCIAS ************************/
 	actual = data.first;
+	int ID;
+
+	for (int i = 0; i < cityN; i++)
+		city[i].numAdy = 0;
 
 	while (actual != NULL)
 	{
-		for (int i = 0; i<cityN; i++)
-			if (!strcmp(actual->origin, city[i].name))
-				x = i;
+		for (int i = 0; i < cityN; i++)
+		{
+			if (strcmp(city[i].name, actual->origin) == 0)
+			{
+				for (int j = 0; j < cityN; j++)
+					if (strcmp(city[j].name, actual->destiny) == 0)
+						ID = j;
 
-		for (int i = 0; i<cityN; i++)
-			if (!strcmp(actual->destiny, city[i].name))
-				y = i;
-
-		adyMatrix[x][y] = actual->cost;
-		adyMatrix[y][x] = actual->cost;
-
+				city[i].adyacent[city[i].numAdy++] = &city[ID];
+				city[ID].adyacent[city[ID].numAdy++] = &city[i];
+			}
+		}
 		actual = actual->next;
 	}
+
 }
 
 void Grafo::printGrafo()
@@ -134,13 +135,6 @@ void Grafo::printGrafo()
 
 	for (int i = 0; i < cityN; i++)
 		city[i].printCity();
-
-	for (int i = 0; i < cityN; i++)
-	{
-		for (int j = 0; j<cityN; j++)
-			cout << setw(4) << adyMatrix[i][j] << " ";
-		cout << endl;
-	}
 }
 
 #endif
