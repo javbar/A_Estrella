@@ -21,6 +21,7 @@ public:
 	void dijkstraAlgorithm(City *origin, City *destination);
 	City *calculateDistances(City *actual, City *destination);
 	void getSolution(City *actual);
+	bool searchValues(char *origin, char *destination);
 };
 
 Grafo::Grafo()
@@ -140,19 +141,25 @@ void Grafo::connectCities()
 
 void Grafo::printGrafo()
 {
-	data.printList();
-
 	for (int i = 0; i < cityN; i++)
 		city[i].printCity();
 }
 
 void Grafo::dijkstraAlgorithm(City *origin, City *destination)
 {
+	/* LIMPIA DISTANCIAS EN CASO DE VOLVER A USAR ALGORITMO AL IGUAL QUE LOS VISITADOS */
+	solutionStepts = 0;
+	for (int i = 0; i < cityN; i++)
+	{
+		city[i].distance = 1000000;
+		city[i].visited = false;
+	}
+		
+
 	origin->distance = 0;
 	calculateDistances(origin, destination);
 
-	for (int i = 0; i < cityN; i++)
-		cout << "ID: " << city[i].ID << " Name " << city[i].name << " Distancia: " << city[i].distance << endl;
+	cout << "Ruta mas corta:" << endl;
 
 	getSolution(destination);
 }
@@ -197,10 +204,10 @@ City *Grafo::calculateDistances(City *actual, City *destination)
 
 void Grafo::getSolution(City *actual)
 {
-    while (actual->distance!=0)
-		for (int i=0;i<actual->numAdy;i++)
+	while (actual->distance != 0)
+		for (int i = 0; i<actual->numAdy; i++)
 		{
-			if ((actual->distance - data.getCosto(actual->name,actual->adyacent[i]->name)) == actual->adyacent[i]->distance)
+			if ((actual->distance - data.getCosto(actual->name, actual->adyacent[i]->name)) == actual->adyacent[i]->distance)
 			{
 				solution[solutionStepts] = actual;
 				actual = actual->adyacent[i];
@@ -214,6 +221,33 @@ void Grafo::getSolution(City *actual)
 
 	for (int i = 0; i < solutionStepts; i++)
 		cout << solution[solutionStepts - i - 1]->name << endl;
+}
+
+bool Grafo::searchValues(char *origen, char *destino)
+{
+	City *origin, *destination;
+	origin = NULL;
+	destination = NULL;
+
+	for (int i = 0; i < cityN; i++)
+	{
+		if (strcmp(city[i].name, origen) == 0)
+			origin = &city[i];
+
+		if (strcmp(city[i].name, destino) == 0)
+			destination = &city[i];
+	}
+	
+	if (origin == NULL || destination == NULL)
+		return false;
+
+	else
+	{
+		cout << "\nMostrando Mapa con Adyacencias:" << endl << endl;
+		printGrafo();
+		dijkstraAlgorithm(origin, destination);
+		return true;
+	}
 }
 
 #endif
