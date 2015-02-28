@@ -4,6 +4,7 @@
 int main()
 {
 	int option = 0;
+	int cost = 0;
 	char origen[50], destino[50];
 	Grafo G;
 
@@ -37,6 +38,37 @@ int main()
 			break;
 
 		case 2:
+			cout << "Ingrese origen: ";
+			gets(origen);
+			fflush(stdin);
+
+			if (G.cityExists(origen))
+			{
+				cout << "Ingrese Conexion: ";
+				gets(destino);
+				fflush(stdin);
+
+				if (!G.connectionExists(origen, destino))
+				{
+					cout << "Ingrese Costo: ";
+					cin >> cost;
+					fflush(stdin);
+
+					G.data.insertAtBottom(origen, destino, cost);
+					G.updateCities();
+				}
+
+				else
+				{
+					cout << "Ya existe la conexion!" << endl;
+				}
+					
+			}
+
+			else
+				cout << "No existe ciudad!" << endl;
+						
+			G.data.printList();
 			break;
 
 		case 3:
