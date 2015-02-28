@@ -8,9 +8,10 @@ class Grafo
 {
 public:
 	List data;
-	City *solution;
+	City **solution;
 	City *city;
 	int cityN;
+	int solutionStepts;
 
 	Grafo();
 	~Grafo();
@@ -26,6 +27,7 @@ Grafo::Grafo()
 {
 	city = new City[50];
 	cityN = 0;
+	solutionStepts = 0;
 	connectCities();
 }
 
@@ -87,7 +89,7 @@ void Grafo::connectCities()
 		actual = actual->next;
 	}
 
-	solution = new City[cityN];
+	solution = new City*[cityN];
 
 	/********************* CONTAR ADYACENCIAS ************************/
 	for (int i = 0; i < cityN; i++)
@@ -151,6 +153,8 @@ void Grafo::dijkstraAlgorithm(City *origin, City *destination)
 
 	for (int i = 0; i < cityN; i++)
 		cout << "ID: " << city[i].ID << " Name " << city[i].name << " Distancia: " << city[i].distance << endl;
+
+	getSolution(destination);
 }
 
 City *Grafo::calculateDistances(City *actual, City *destination)
@@ -193,18 +197,23 @@ City *Grafo::calculateDistances(City *actual, City *destination)
 
 void Grafo::getSolution(City *actual)
 {
-    while(actual->distance!=0)
-    for(int i=0;i<actual->numAdy;i++){
-        if((actual->distance -  data.getCosto(actual->name,actual->adyacent[i]->name)) == actual->adyacent[i]->distance)
-        {
-            cout<<actual->name<<endl;
-            actual = actual->adyacent[i];
+    while (actual->distance!=0)
+		for (int i=0;i<actual->numAdy;i++)
+		{
+			if ((actual->distance - data.getCosto(actual->name,actual->adyacent[i]->name)) == actual->adyacent[i]->distance)
+			{
+				solution[solutionStepts] = actual;
+				actual = actual->adyacent[i];
+				solutionStepts++;
+				break;
+			}
+		}
 
-            break;
-        }
-    }
-    cout<<actual->name<<endl;
+	solution[solutionStepts] = actual;
+	solutionStepts++;
 
+	for (int i = 0; i < solutionStepts; i++)
+		cout << solution[solutionStepts - i - 1]->name << endl;
 }
 
 #endif
