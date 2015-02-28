@@ -193,6 +193,16 @@ City *Grafo::calculateDistances(City *actual, City *destination)
 
 void Grafo::getSolution(City *actual)
 {
+    city *aux;
+    while(!actual->distance)
+    for(int i=0;i<actual->numAdy;i++){
+        if((actual->distance -  data->getCosto(actual->name,actual->adyacent[i]->name)) == actual->adyacent->distance)
+        {
+            actual = actual->adyacent[i];
+
+            break;
+        }
+    }
 
 }
 
