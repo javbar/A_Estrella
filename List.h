@@ -144,7 +144,6 @@ List::~List()
 void List::printList()
 {
 	Node *actual;
-
 	actual = first;
 
 	while (actual != NULL)
@@ -156,9 +155,11 @@ void List::printList()
 
 void List::readList(char *name)
 {
-	char origin[50], destiny[50];
+	char *origin, *destiny;
 	int cost;
-	int count = 0;
+
+	origin = new char[50];
+	destiny = new char[50];
 
 	ifstream input(name);
 
@@ -178,7 +179,11 @@ void List::readList(char *name)
 		else
 			insertAtBottom(origin, destiny, cost);
 	}
+
 	input.close();
+
+	delete[] origin;
+	delete[] destiny;
 }
 
 #endif
