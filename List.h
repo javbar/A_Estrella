@@ -28,6 +28,7 @@ public:
 	int deleteTop();
 	void readList(char *name);
 	void printList();
+	int getCosto(char *name_1, char *name_2);
 
 };
 
@@ -184,6 +185,25 @@ void List::readList(char *name)
 
 	delete[] origin;
 	delete[] destiny;
+}
+
+int List::getCosto(char *name_1, char *name_2)
+{
+	Node *actual;
+	actual = first;
+
+	while (actual != NULL)
+	{
+		if (strcmp(actual->origin, name_1) == 0 && strcmp(actual->destiny, name_2) == 0)
+			return actual->cost;
+
+		if (strcmp(actual->origin, name_2) == 0 && strcmp(actual->destiny, name_1) == 0)
+			return actual->cost;
+
+			actual = actual->next;
+	}
+	
+	return -1;
 }
 
 #endif
