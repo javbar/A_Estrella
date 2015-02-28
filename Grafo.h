@@ -164,6 +164,7 @@ void Grafo::dijkstraAlgorithm(City *origin, City *destination)
 	getSolution(destination);
 }
 
+// Función Recursiva 
 City *Grafo::calculateDistances(City *actual, City *destination)
 {
 	int newDistance;
