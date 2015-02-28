@@ -142,19 +142,26 @@ void Grafo::dijkstraAlgorithm(City *origin, City *destination)
 {
 	City *actual;
 	int newDistance;
+	
 	origin->distance = 0;
+	actual = origin;
 
-	for (int i = 0; i < origin->numAdy; i++)
+	/**** ESTO VA EN UNA FUNCIÓN ****/
+	actual->visited = true;
+	newDistance = actual->distance;
+
+	for (int i = 0; i < actual->numAdy; i++)
 	{
-		newDistance = data.getCosto(origin->name, origin->adyacent[i]->name);
-		newDistance += origin->distance;
+		if (!actual->adyacent[i]->visited)
+		{
+			newDistance = data.getCosto(actual->name, actual->adyacent[i]->name);
+			newDistance += actual->distance;
 
-		if (newDistance < origin->adyacent[i]->distance)
-			origin->adyacent[i]->distance = newDistance;
+			if (newDistance < actual->adyacent[i]->distance)
+				actual->adyacent[i]->distance = newDistance;
 
-		cout << origin->adyacent[i]->distance << endl;
-
-		newDistance = 0;
+			cout << actual->adyacent[i]->distance << endl;
+		}	
 	}
 }
 
