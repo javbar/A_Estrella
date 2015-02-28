@@ -17,7 +17,7 @@ public:
 	void printGrafo();
 	void connectCities();
 	void dijkstraAlgorithm(City *origin, City *destination);
-	void calculateDistances(City *actual, City *destination);
+	City *calculateDistances(City *actual, City *destination);
 };
 
 Grafo::Grafo()
@@ -148,7 +148,7 @@ void Grafo::dijkstraAlgorithm(City *origin, City *destination)
 		cout << "ID: " << city[i].ID << " Name " << city[i].name << " Distancia: " << city[i].distance << endl;
 }
 
-void Grafo::calculateDistances(City *actual, City *destination)
+City *Grafo::calculateDistances(City *actual, City *destination)
 {
 	int newDistance;
 	actual->visited = true;
@@ -182,7 +182,7 @@ void Grafo::calculateDistances(City *actual, City *destination)
 	actual = &city[aux];
 
 	if (actual == destination)
-		return;
+		return actual;
 
 	else
 		calculateDistances(actual, destination);
