@@ -22,6 +22,10 @@ public:
 	City *calculateDistances(City *actual, City *destination);
 	void getSolution(City *actual);
 	bool searchValues(char *origin, char *destination);
+
+	bool cityExists(char *origin);
+	bool connectionExists(char *origen, char *destino);
+	void updateCities();
 };
 
 Grafo::Grafo()
@@ -34,6 +38,10 @@ Grafo::Grafo()
 
 Grafo::~Grafo()
 {
+	for (int i = 0; i < cityN; i++)
+		if (city[i].numAdy != 0)
+			delete[] city[i].adyacent;
+
 	delete[] solution;
 	delete[] city;
 }
@@ -148,13 +156,15 @@ void Grafo::printGrafo()
 void Grafo::dijkstraAlgorithm(City *origin, City *destination)
 {
 	/* LIMPIA DISTANCIAS EN CASO DE VOLVER A USAR ALGORITMO AL IGUAL QUE LOS VISITADOS */
+	printGrafo();
+
 	solutionStepts = 0;
 	for (int i = 0; i < cityN; i++)
 	{
 		city[i].distance = 1000000;
 		city[i].visited = false;
 	}
-		
+	/************************************************************************************/
 
 	origin->distance = 0;
 	calculateDistances(origin, destination);
@@ -164,7 +174,6 @@ void Grafo::dijkstraAlgorithm(City *origin, City *destination)
 	getSolution(destination);
 }
 
-// Función Recursiva 
 City *Grafo::calculateDistances(City *actual, City *destination)
 {
 	int newDistance;
@@ -245,10 +254,47 @@ bool Grafo::searchValues(char *origen, char *destino)
 	else
 	{
 		cout << "\nMostrando Mapa con Adyacencias:" << endl << endl;
-		printGrafo();
 		dijkstraAlgorithm(origin, destination);
 		return true;
 	}
 }
 
+bool Grafo::cityExists(char *origin)
+{
+	for (int i = 0; i < cityN; i++)
+		if (strcmp(city[i].name, origin) == 0)
+			return true;
+
+	return false;
+}
+
+bool Grafo::connectionExists(char *origen, char *destino)
+{
+	Node *actual;
+	actual = data.first;
+
+	while (actual != NULL)
+	{
+		if (strcmp(actual->origin, origen) == 0 && strcmp(actual->destiny, destino) == 0)
+			return true;
+
+		if (strcmp(actual->origin, destino) == 0 && strcmp(actual->destiny, origen) == 0)
+			return true;
+
+		actual = actual->next;
+	}
+
+	return false;
+}
+
+void Grafo::updateCities()
+{
+	for (int i = 0; i < cityN; i++)
+	{
+		city[i].numAdy = 0;
+		delete[] city[i].adyacent;
+	}
+	cityN = 0;
+	connectCities();
+}
 #endif
