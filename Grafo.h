@@ -8,6 +8,7 @@ class Grafo
 {
 public:
 	List data;
+	City *solution;
 	City *city;
 	int cityN;
 
@@ -18,6 +19,7 @@ public:
 	void connectCities();
 	void dijkstraAlgorithm(City *origin, City *destination);
 	City *calculateDistances(City *actual, City *destination);
+	void getSolution(City *actual);
 };
 
 Grafo::Grafo()
@@ -29,6 +31,7 @@ Grafo::Grafo()
 
 Grafo::~Grafo()
 {
+	delete[] solution;
 	delete[] city;
 }
 
@@ -83,6 +86,8 @@ void Grafo::connectCities()
 
 		actual = actual->next;
 	}
+
+	solution = new City[cityN];
 
 	/********************* CONTAR ADYACENCIAS ************************/
 	for (int i = 0; i < cityN; i++)
@@ -163,8 +168,6 @@ City *Grafo::calculateDistances(City *actual, City *destination)
 
 			if (newDistance < actual->adyacent[i]->distance)
 				actual->adyacent[i]->distance = newDistance;
-
-			cout << actual->adyacent[i]->distance << endl;
 		}
 	}
 
@@ -186,6 +189,11 @@ City *Grafo::calculateDistances(City *actual, City *destination)
 
 	else
 		calculateDistances(actual, destination);
+}
+
+void Grafo::getSolution(City *actual)
+{
+
 }
 
 #endif
