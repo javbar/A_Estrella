@@ -167,16 +167,16 @@ void Grafo::calculateDistances(City *actual)
 	
        newDistance = 1000;
        int aux = 0;
-	for (int i = 0; i < actual->numAdy; i++)
+	for (int i = 0; i < cityN; i++)
 	{
-		if (!actual->adyacent[i]->visited && actual->adyacent[i]->distance < newDistance)
+		if (!city[i]->visited && city[i]->distance < newDistance)
 		{
-			newDistance = actual->adyacent[i]->distance;
-            aux = i;
+			newDistance = city[i]->distance;
+            		aux = i;
 		}
 	}
 
-         actual = actual->adyacent[aux];
+         actual = city[aux];
 	calculateDistances(actual);
 }
 
