@@ -9,4 +9,4 @@ Egipto	Dinamarca	2
 Dinamarca	Finlandia	2
 Dinamarca	Groelandia	10
 Finlandia	Groelandia	3
-
+Egipto  Groelandia  5
